@@ -9,6 +9,7 @@ module.exports = function(){
       if (listenerList[index].topic == topic) {
         let suscriber = listenerList[index].url;
         let body = {
+          topic:topic,
           message: message
         }
         await axios.post(suscriber, body);
@@ -73,12 +74,15 @@ module.exports = function(){
             }
             break;
           case 'publish':
-            if (bodyParams.url) {
+            if (bodyParams.message) {
               respondToSuscribers(topic, bodyParams.message);
             } else {
               err = 'a message  is necessary to publish to a topic';
             }
             break;
+            case 'event':
+                console.log('Message "' + message.message+ '" from '+ message.topic) 
+              break;
           default:
             err = 'action does not exist';
         }
